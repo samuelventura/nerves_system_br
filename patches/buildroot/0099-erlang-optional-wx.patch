@@ -1,0 +1,36 @@
+diff -ruN a/package/erlang/Config.in b/package/erlang/Config.in
+--- a/package/erlang/Config.in	2022-07-06 13:19:34.903876152 -0500
++++ b/package/erlang/Config.in	2022-07-06 13:44:58.285253047 -0500
+@@ -83,4 +83,9 @@
+ 	  approximately 14MB in size so if you do not need it then
+ 	  it is recommended not to enable it.
+ 
++config BR2_PACKAGE_ERLANG_WX
++	bool "install wx application"
++	help
++	  The wx application is a framework for building UIs.
++
+ endif # BR2_PACKAGE_ERLANG
+diff -ruN a/package/erlang/erlang.mk b/package/erlang/erlang.mk
+--- a/package/erlang/erlang.mk	2022-07-06 13:16:02.835798563 -0500
++++ b/package/erlang/erlang.mk	2022-07-06 13:44:25.832626703 -0500
+@@ -133,13 +133,17 @@
+ ERLANG_CONF_OPTS += --disable-builtin-zlib
+ ERLANG_DEPENDENCIES += zlib
+ 
+-# Remove source, example, gs and wx files from staging and target.
+-ERLANG_REMOVE_PACKAGES = gs wx
++# Remove source, example, gs files from staging and target.
++ERLANG_REMOVE_PACKAGES = gs
+ 
+ ifneq ($(BR2_PACKAGE_ERLANG_MEGACO),y)
+ ERLANG_REMOVE_PACKAGES += megaco
+ endif
+ 
++ifneq ($(BR2_PACKAGE_ERLANG_WX),y)
++ERLANG_REMOVE_PACKAGES += wx
++endif
++
+ define ERLANG_REMOVE_STAGING_UNUSED
+ 	# Remove intermediate build products that can get copied Erlang
+ 	# release tools.
