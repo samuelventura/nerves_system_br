@@ -14,7 +14,7 @@ TMP_DIR=$BASE_DIR/_build/_nerves-tmp
 rm -fr "$TMP_DIR"
 mkdir -p "$TMP_DIR"
 function cleanup {
-  rm -fr "$TMP_DIR"
+  echo rm -fr "$TMP_DIR"
 }
 trap cleanup EXIT
 
@@ -136,7 +136,9 @@ mkdir -p "$TMP_DIR/rootfs_overlay/srv/erlang"
 cp -R "$RELEASE_DIR/." "$TMP_DIR/rootfs_overlay/srv/erlang"
 
 # Clean up the Erlang release of all the files that we don't need.
-"$NERVES_SYSTEM/scripts/scrub-otp-release.sh" "$TMP_DIR/rootfs_overlay/srv/erlang"
+echo "Release Folder $RELEASE_DIR"
+echo "Temp Destination $TMP_DIR/rootfs_overlay/srv/erlang"
+# "$NERVES_SYSTEM/scripts/scrub-otp-release.sh" "$TMP_DIR/rootfs_overlay/srv/erlang"
 
 # Copy over any rootfs overlays from the user
 # IMPORTANT: This must be the final step before the merge so that the user can
